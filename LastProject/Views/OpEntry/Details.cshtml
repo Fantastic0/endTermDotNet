@@ -1,0 +1,30 @@
+﻿@model LastProject.Models.OpEntry
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OpEntry</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Balance)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OpenDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OpenDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.OpEntryId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

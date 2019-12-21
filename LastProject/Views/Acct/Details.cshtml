@@ -1,0 +1,42 @@
+﻿@model LastProject.Models.Acct
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Acct</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustCat)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustCat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AcctCat)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AcctCat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OpenDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OpenDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.AcctId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

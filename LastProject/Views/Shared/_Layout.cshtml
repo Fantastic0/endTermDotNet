@@ -1,0 +1,49 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LastProject</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style type="text/css">
+        div#navi {
+            background-color: #E3D6E5;
+            
+        }
+        body{
+            font-family:'Comic Sans MS';
+        }
+    </style>
+</head>
+<body>
+    <partial name="_LoginPartial" />
+    <div class="container" id="navi">
+        <div class="navbar navbar-dark">
+            <a>@Html.ActionLink("Home", "Index", "Hello")</a>
+            <a>@Html.ActionLink("Acct", "Index", "Acct")</a>
+            <a>@Html.ActionLink("AcctPos", "Index", "AcctPos")</a>
+            <a>@Html.ActionLink("Cust", "Index", "Cust")</a>
+            <a>@Html.ActionLink("Loan", "Index", "Loan")</a>
+            <a>@Html.ActionLink("Op", "Index", "Op")</a>
+            <a>@Html.ActionLink("OpEntry", "Index", "OpEntry")</a>
+            <a>@Html.ActionLink("Person", "Index", "Person")</a>
+            <a>@Html.ActionLink("Login", "Login", "Account")</a>
+            <a>@Html.ActionLink("Register", "Register", "Account")</a>
+        </div>
+    </div>
+
+    <div class="container">
+        @RenderBody()
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container" id="navi">
+            <p>&copy; 2019 - LastProject </p>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
