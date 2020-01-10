@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LastProject.Models
 {
-    public class Loan : IValidatableObject
+    public class Loan 
     {
         [Required]
         [Display(Name = "LoanId")]
@@ -17,9 +17,9 @@ namespace LastProject.Models
         [Display(Name = "Contract")]
         public string Contract { get; set; }
 
-        [Required]
-        [Display(Name = "Acct")]
-        public Acct Acct { get; set; }
+        
+        /*[Display(Name = "Acct")]
+        public Acct Acct { get; set; }*/
 
         public int AcctId { get; set; }
 
@@ -31,9 +31,6 @@ namespace LastProject.Models
         [Display(Name = "CustCat")]
         public char CustCat { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

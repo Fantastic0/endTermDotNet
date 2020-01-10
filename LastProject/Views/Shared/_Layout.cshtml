@@ -1,18 +1,20 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<LastProject.Models.User> SignInManager
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>LastProject</title>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style type="text/css">
         div#navi {
             background-color: #E3D6E5;
-            
         }
-        body{
-            font-family:'Comic Sans MS';
+
+        body {
+            font-family: 'Comic Sans MS';
         }
     </style>
 </head>
@@ -28,14 +30,34 @@
             <a>@Html.ActionLink("Op", "Index", "Op")</a>
             <a>@Html.ActionLink("OpEntry", "Index", "OpEntry")</a>
             <a>@Html.ActionLink("Person", "Index", "Person")</a>
-            <a>@Html.ActionLink("Login", "Login", "Account")</a>
-            <a>@Html.ActionLink("Register", "Register", "Account")</a>
+
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <form method="post" asp-controller="account" asp-action="logout">
+                    <button type="submit" style="width:auto"
+                            class="nav-link btn btn-link py-0">
+                        Logout @User.Identity.Name
+                    </button>
+                </form>
+            }
+            else
+            {
+                <a class="button is-primary" asp-controller="account" asp-action="register">
+                    <strong>Sign up</strong>
+                </a>
+                <a class="button is-light" asp-controller="account" asp-action="login">
+                    Log in
+                </a>
+            }
+
+            
         </div>
     </div>
 
     <div class="container">
         @RenderBody()
     </div>
+    <br>
     <footer class="border-top footer text-muted">
         <div class="container" id="navi">
             <p>&copy; 2019 - LastProject </p>

@@ -20,7 +20,15 @@ namespace LastProject
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options => { options.UseSqlite("Filename=data.db"); });
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+            });
+
+            services.AddDbContext<DataContext>(options => { 
+                options.UseSqlite("Filename=data.db"); 
+            });
 
             services.AddIdentity<User, IdentityRole>(options =>
             {
@@ -43,10 +51,11 @@ namespace LastProject
                 app.UseDeveloperExceptionPage();
             }
 
-            /*app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();*/
+            app.UseSession();
             app.UseAuthentication();
+            app.UseCookiePolicy();
 
 
 
@@ -55,6 +64,7 @@ namespace LastProject
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Hello}/{action=Index}/{id?}");
+
             });
         }
     }

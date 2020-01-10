@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LastProject.Models
 {
-    public class Acct : IValidatableObject
+    public class Acct 
     {
         [Required]
         [Remote("AcctExist","Acct",HttpMethod = "POST",ErrorMessage = "Exist")]
@@ -30,13 +30,10 @@ namespace LastProject.Models
         [Display(Name = "OpenDate")]
         public DateTime OpenDate { get; set; }
 
-        public ICollection<AcctPos> AcctPos { get; set; }
+        //public ICollection<AcctPos> AcctPos { get; set; }
 
-        public Loan Loan { get; set; }
+        //public Loan Loan { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

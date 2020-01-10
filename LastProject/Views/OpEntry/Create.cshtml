@@ -20,6 +20,16 @@
                 <span asp-validation-for="Balance" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="AccrCr" class="control-label"></label>
+                <input asp-for="AccrCr" class="form-control" />
+                <span asp-validation-for="AccrCr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AcctDb" class="control-label"></label>
+                <input asp-for="AcctDb" class="form-control" />
+                <span asp-validation-for="AcctDb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="OpenDate" class="control-label"></label>
                 <input asp-for="OpenDate" class="form-control" />
                 <span asp-validation-for="OpenDate" class="text-danger"></span>
@@ -32,7 +42,7 @@
 </div>
 
 <div>
-    <a>@Html.ActionLink("Back to List", "Index", "OpEntry")</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

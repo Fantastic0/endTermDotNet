@@ -34,7 +34,7 @@ namespace LastProject.Controllers
             }
 
             var acctPos = await _context.AcctPos
-                .FirstOrDefaultAsync(m => m.AcctPostId == id);
+                .FirstOrDefaultAsync(m => m.AcctPosId == id);
             if (acctPos == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace LastProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AcctPostId,Balance,Date")] AcctPos acctPos)
         {
-            if (id != acctPos.AcctPostId)
+            if (id != acctPos.AcctPosId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace LastProject.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AcctPosExists(acctPos.AcctPostId))
+                    if (!AcctPosExists(acctPos.AcctPosId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace LastProject.Controllers
             }
 
             var acctPos = await _context.AcctPos
-                .FirstOrDefaultAsync(m => m.AcctPostId == id);
+                .FirstOrDefaultAsync(m => m.AcctPosId == id);
             if (acctPos == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace LastProject.Controllers
 
         private bool AcctPosExists(int id)
         {
-            return _context.AcctPos.Any(e => e.AcctPostId == id);
+            return _context.AcctPos.Any(e => e.AcctPosId == id);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LastProject.Models
 {
-    public class Op : IValidatableObject
+    public class Op 
     {
         [Required]
         [Display(Name = "OpId")]
@@ -21,11 +21,8 @@ namespace LastProject.Models
         [Display(Name = "OpDate")]
         public DateTime OpDate { get; set; }
 
-        public ICollection<OpEntry> OpEntries { get; set; }
+        //public ICollection<OpEntry> OpEntries { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

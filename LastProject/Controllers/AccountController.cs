@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LastProject.ViewModels;
 using LastProject.Models;
+using LastProject.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace LastProject.Controllers
 {
@@ -13,6 +15,10 @@ namespace LastProject.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+
+        const string SessionName = "_Name";
+        const string SessionAge = "_Age";
+        const string SessionKeyDate = "_Date";
         public AccountController(UserManager<User> userManager,
             SignInManager<User> signInManager)
         {
@@ -73,19 +79,64 @@ namespace LastProject.Controllers
             {
 
 
-                var user = new User
+                /*var user = new User
                 {
                     UserName = model.Email,
                     Email = model.Email,
                     PasswordHash = model.Password
-                };
+                };*/
 
-                await signInManager.SignInAsync(user, true);
+                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
 
-                return RedirectToAction("index", "hello");
+                if (result.Succeeded)
+                {
+                    HttpContext.Session.SetString(SessionName, model.Email);
+                    HttpContext.Session.SetInt32(SessionAge, 25);
+                    HttpContext.Session.Set<DateTime>(SessionKeyDate, DateTime.Now);
+                    return RedirectToAction("index", "hello");
+                }
+                
 
             }
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("index", "hello");
+        }
+
+        
+    }
+
+    public static class SessionExtensions
+
+    {
+
+        public static void Set<T>(this ISession session, string key, T value)
+
+        {
+
+            session.SetString(key, JsonConvert.SerializeObject(value));
+
+        }
+
+        public static T Get<T>(this ISession session, string key)
+
+        {
+
+            var value = session.GetString(key);
+
+            return value == null ? default :
+
+            JsonConvert.DeserializeObject<T>(value);
+
+        }
+
     }
 }

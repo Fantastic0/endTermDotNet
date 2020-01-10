@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LastProject.Migrations
 {
-    public partial class fourth : Migration
+    public partial class test1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,6 +21,21 @@ namespace LastProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Acct", x => x.AcctId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AcctPos",
+                columns: table => new
+                {
+                    AcctPosId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AcctId = table.Column<int>(nullable: false),
+                    Balance = table.Column<double>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AcctPos", x => x.AcctPosId);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,7 +70,9 @@ namespace LastProject.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    FullName = table.Column<string>(maxLength: 30, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,6 +95,22 @@ namespace LastProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Loan",
+                columns: table => new
+                {
+                    LoanId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Contract = table.Column<string>(maxLength: 20, nullable: false),
+                    AcctId = table.Column<int>(nullable: false),
+                    CustId = table.Column<int>(nullable: false),
+                    CustCat = table.Column<char>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Loan", x => x.LoanId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Op",
                 columns: table => new
                 {
@@ -89,6 +122,23 @@ namespace LastProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Op", x => x.OpId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OpEntry",
+                columns: table => new
+                {
+                    OpEntryId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    OpId = table.Column<int>(nullable: false),
+                    AccrCr = table.Column<string>(nullable: true),
+                    AcctDb = table.Column<string>(nullable: true),
+                    Balance = table.Column<double>(nullable: false),
+                    OpenDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OpEntry", x => x.OpEntryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,49 +155,6 @@ namespace LastProject.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Person", x => x.PersonId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AcctPos",
-                columns: table => new
-                {
-                    AcctPostId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    AcctId = table.Column<int>(nullable: false),
-                    Balance = table.Column<double>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AcctPos", x => x.AcctPostId);
-                    table.ForeignKey(
-                        name: "FK_AcctPos_Acct_AcctId",
-                        column: x => x.AcctId,
-                        principalTable: "Acct",
-                        principalColumn: "AcctId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Loan",
-                columns: table => new
-                {
-                    LoanId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Contract = table.Column<string>(maxLength: 20, nullable: false),
-                    AcctId = table.Column<int>(nullable: false),
-                    CustId = table.Column<int>(nullable: false),
-                    CustCat = table.Column<char>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Loan", x => x.LoanId);
-                    table.ForeignKey(
-                        name: "FK_Loan_Acct_AcctId",
-                        column: x => x.AcctId,
-                        principalTable: "Acct",
-                        principalColumn: "AcctId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -256,45 +263,25 @@ namespace LastProject.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "OpEntry",
-                columns: table => new
-                {
-                    OpEntryId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    OpId = table.Column<int>(nullable: false),
-                    AccrCrAcctId = table.Column<int>(nullable: false),
-                    AcctDbAcctId = table.Column<int>(nullable: false),
-                    Balance = table.Column<double>(nullable: false),
-                    OpenDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OpEntry", x => x.OpEntryId);
-                    table.ForeignKey(
-                        name: "FK_OpEntry_Acct_AccrCrAcctId",
-                        column: x => x.AccrCrAcctId,
-                        principalTable: "Acct",
-                        principalColumn: "AcctId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OpEntry_Acct_AcctDbAcctId",
-                        column: x => x.AcctDbAcctId,
-                        principalTable: "Acct",
-                        principalColumn: "AcctId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OpEntry_Op_OpId",
-                        column: x => x.OpId,
-                        principalTable: "Op",
-                        principalColumn: "OpId",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.InsertData(
+                table: "Person",
+                columns: new[] { "PersonId", "FirstName", "Inn", "NameLast", "OpenDate" },
+                values: new object[] { -1, "Yerbolat", "990317350064", "Kantarbay", new DateTime(2019, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_AcctPos_AcctId",
-                table: "AcctPos",
-                column: "AcctId");
+            migrationBuilder.InsertData(
+                table: "Person",
+                columns: new[] { "PersonId", "FirstName", "Inn", "NameLast", "OpenDate" },
+                values: new object[] { -2, "Yeren", "123456789012", "Kadirbekov", new DateTime(2019, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Person",
+                columns: new[] { "PersonId", "FirstName", "Inn", "NameLast", "OpenDate" },
+                values: new object[] { -3, "Nurzhan", "987654321098", "Tynyshbay", new DateTime(2019, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Person",
+                columns: new[] { "PersonId", "FirstName", "Inn", "NameLast", "OpenDate" },
+                values: new object[] { -4, "Name", "312456798879", "Surname", new DateTime(2019, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -332,31 +319,13 @@ namespace LastProject.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Loan_AcctId",
-                table: "Loan",
-                column: "AcctId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OpEntry_AccrCrAcctId",
-                table: "OpEntry",
-                column: "AccrCrAcctId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OpEntry_AcctDbAcctId",
-                table: "OpEntry",
-                column: "AcctDbAcctId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OpEntry_OpId",
-                table: "OpEntry",
-                column: "OpId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Acct");
+
             migrationBuilder.DropTable(
                 name: "AcctPos");
 
@@ -382,6 +351,9 @@ namespace LastProject.Migrations
                 name: "Loan");
 
             migrationBuilder.DropTable(
+                name: "Op");
+
+            migrationBuilder.DropTable(
                 name: "OpEntry");
 
             migrationBuilder.DropTable(
@@ -392,12 +364,6 @@ namespace LastProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Acct");
-
-            migrationBuilder.DropTable(
-                name: "Op");
         }
     }
 }

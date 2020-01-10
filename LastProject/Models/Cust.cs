@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LastProject.Models
 {
-    public class Cust : IValidatableObject
+    public class Cust 
     {
         [Required]
         [Display(Name = "CustId")]
@@ -27,9 +27,6 @@ namespace LastProject.Models
         [Display(Name = "Bin")]
         public string Bin { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

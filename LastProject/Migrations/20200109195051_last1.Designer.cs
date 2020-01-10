@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LastProject.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191213205900_fourth")]
-    partial class fourth
+    [Migration("20200109195051_last1")]
+    partial class last1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,7 +38,7 @@ namespace LastProject.Migrations
 
             modelBuilder.Entity("LastProject.Models.AcctPos", b =>
                 {
-                    b.Property<int>("AcctPostId")
+                    b.Property<int>("AcctPosId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AcctId");
@@ -47,9 +47,7 @@ namespace LastProject.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.HasKey("AcctPostId");
-
-                    b.HasIndex("AcctId");
+                    b.HasKey("AcctPosId");
 
                     b.ToTable("AcctPos");
                 });
@@ -93,9 +91,6 @@ namespace LastProject.Migrations
 
                     b.HasKey("LoanId");
 
-                    b.HasIndex("AcctId")
-                        .IsUnique();
-
                     b.ToTable("Loan");
                 });
 
@@ -120,9 +115,9 @@ namespace LastProject.Migrations
                     b.Property<int>("OpEntryId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AccrCrAcctId");
+                    b.Property<string>("AccrCr");
 
-                    b.Property<int>("AcctDbAcctId");
+                    b.Property<string>("AcctDb");
 
                     b.Property<double>("Balance");
 
@@ -131,12 +126,6 @@ namespace LastProject.Migrations
                     b.Property<DateTime>("OpenDate");
 
                     b.HasKey("OpEntryId");
-
-                    b.HasIndex("AccrCrAcctId");
-
-                    b.HasIndex("AcctDbAcctId");
-
-                    b.HasIndex("OpId");
 
                     b.ToTable("OpEntry");
                 });
@@ -161,6 +150,13 @@ namespace LastProject.Migrations
                     b.HasKey("PersonId");
 
                     b.ToTable("Person");
+
+                    b.HasData(
+                        new { PersonId = -1, FirstName = "Yerbolat", Inn = "990317350064", NameLast = "Kantarbay", OpenDate = new DateTime(2019, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { PersonId = -2, FirstName = "Yeren", Inn = "123456789012", NameLast = "Kadirbekov", OpenDate = new DateTime(2019, 8, 2, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { PersonId = -3, FirstName = "Nurzhan", Inn = "987654321098", NameLast = "Tynyshbay", OpenDate = new DateTime(2019, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                        new { PersonId = -4, FirstName = "Name", Inn = "312456798879", NameLast = "Surname", OpenDate = new DateTime(2019, 10, 18, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -215,6 +211,9 @@ namespace LastProject.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -253,6 +252,8 @@ namespace LastProject.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -320,38 +321,17 @@ namespace LastProject.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LastProject.Models.AcctPos", b =>
+            modelBuilder.Entity("LastProject.Models.User", b =>
                 {
-                    b.HasOne("LastProject.Models.Acct", "Acct")
-                        .WithMany("AcctPos")
-                        .HasForeignKey("AcctId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-            modelBuilder.Entity("LastProject.Models.Loan", b =>
-                {
-                    b.HasOne("LastProject.Models.Acct", "Acct")
-                        .WithOne("Loan")
-                        .HasForeignKey("LastProject.Models.Loan", "AcctId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
-            modelBuilder.Entity("LastProject.Models.OpEntry", b =>
-                {
-                    b.HasOne("LastProject.Models.Acct", "AccrCr")
-                        .WithMany()
-                        .HasForeignKey("AccrCrAcctId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.ToTable("User");
 
-                    b.HasOne("LastProject.Models.Acct", "AcctDb")
-                        .WithMany()
-                        .HasForeignKey("AcctDbAcctId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LastProject.Models.Op", "Op")
-                        .WithMany("OpEntries")
-                        .HasForeignKey("OpId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

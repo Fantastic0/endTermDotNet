@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LastProject.Models
 {
-    public class Person : IValidatableObject
+    public class Person
     {
         [Required]
         [Display(Name = "PersonId")]
@@ -29,12 +29,9 @@ namespace LastProject.Models
         [Display(Name = "OpenDate")]
         public DateTime OpenDate { get; set; }
 
-        Person() { }
+        public Person() { }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
 

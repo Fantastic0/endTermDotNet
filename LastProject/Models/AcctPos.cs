@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace LastProject.Models
 {
-    public class AcctPos : IValidatableObject
+    public class AcctPos 
     {
-        [Key]
         [Required]
         [Display(Name = "AcctPosId")]
-        public int AcctPostId { get; set; }
+        public int AcctPosId { get; set; }
 
-        [Required]
-        [Display(Name = "Acct")]
-        public Acct Acct { get; set; }
+        
+        /*[Display(Name = "Acct")]
+        public Acct Acct { get; set; }*/
 
         public int AcctId { get; set; }
 
@@ -28,9 +27,6 @@ namespace LastProject.Models
         [Display(Name = "Date")]
         public DateTime Date { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

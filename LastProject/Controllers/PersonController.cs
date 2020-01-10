@@ -44,6 +44,7 @@ namespace LastProject.Controllers
         }
 
         // GET: Person/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();

@@ -9,9 +9,22 @@ namespace LastProject.Controllers
 {
     public class HelloController : Controller
     {
+
+        const string SessionName = "_Name";
+        const string SessionAge = "_Age";
+        const string SessionKeyDate = "_Date";
         // GET: Hello
         public ActionResult Index()
         {
+            ViewBag.MyStatus = TempData["status"];
+            if (HttpContext.Session != null)
+            {
+                ViewBag.Name = HttpContext.Session.GetString(SessionName);
+                ViewBag.Age = HttpContext.Session.GetInt32(SessionAge);
+                ViewBag.Date = HttpContext.Session.Get<DateTime>(SessionKeyDate);
+            }
+
+
             return View();
         }
 
